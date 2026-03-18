@@ -1,13 +1,13 @@
-const Home = () => {
+const Profile = () => {
   return (
     <>
       <section>
         <div>
-          <h1>This is Home page</h1>
+          <h1>This is Profile page</h1>
         </div>
       </section>
     </>
   );
 };
 
-export default Home;
+export default Profile;
