@@ -3,7 +3,7 @@ const Profile = () => {
     <>
       <section>
         <div>
-          <h1>This is Profile page</h1>
+          <h1 className="font-semibold text-3xl">This is Profile page</h1>
         </div>
       </section>
     </>
