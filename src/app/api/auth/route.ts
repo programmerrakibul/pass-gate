@@ -1,12 +1,9 @@
-import { userBaseSchema } from "@/validators/user.validator";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 
 export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
-    const validatedData = userBaseSchema.parse(body);
-    console.log(validatedData);
 
     return NextResponse.json(
       {
@@ -17,16 +14,23 @@ export const POST = async (req: NextRequest) => {
       },
     );
   } catch (error: unknown) {
+    let message: string = "Internal Server Error!";
+    let status: number = 500;
+
     if (error instanceof ZodError) {
-      console.log(error.issues[0].message);
+      const issues = Object.values(error.issues);
+
+      status = 400;
+      message = issues.map((val) => val.message).join(", ");
     }
 
     return NextResponse.json(
       {
         success: false,
+        message: message,
       },
       {
-        status: 500,
+        status,
       },
     );
   }

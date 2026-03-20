@@ -1,3 +1,3 @@
-import type { TUserBase } from "@/validators/user.validator";
+import { TCreateUser } from "@/validators/user.validator";
 
-export type TUserInput = TUserBase;
+export type TUserDocument = TCreateUser
