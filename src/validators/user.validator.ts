@@ -26,6 +26,7 @@ export const createUserSchema = z.object(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
         "Password must contain at least one uppercase letter, one lowercase letter, and one number!",
       ),
+    photoURL: z.url("Invalid Photo URL format!").optional(),
   },
   "User data is required in the request body!",
 );

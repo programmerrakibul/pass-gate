@@ -4,3 +4,7 @@ export interface MongooseCache {
   conn: Mongoose | null;
   promise: Promise<Mongoose> | null;
 }
+
+export type TApiResponse<T = unknown> =
+  | { success: true; message: string; data?: T | T[] }
+  | { success: false; message: string };

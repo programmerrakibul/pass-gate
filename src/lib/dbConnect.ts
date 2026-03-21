@@ -31,7 +31,7 @@ const dbConnect = async () => {
     console.log("🔄 Creating new MongoDB connection...");
 
     const opts: ConnectOptions = {
-      dbName: envConfig.DB_NAME || "pass-gate",
+      dbName: envConfig.DB_NAME,
       serverApi: { version: "1", strict: true, deprecationErrors: true },
       bufferCommands: false,
     };

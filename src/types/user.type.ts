@@ -1,3 +1,9 @@
-import { TCreateUser } from "@/validators/user.validator";
+import { Document } from "mongoose";
+import type { TCreateUser } from "@/validators/user.validator";
 
-export type TUserDocument = TCreateUser
+export type TUser = TCreateUser &
+  TCreateUser & {
+    lastLoggedIn: Date;
+  };
+
+export interface TUserDocument extends TUser, Document {}
