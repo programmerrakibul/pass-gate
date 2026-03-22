@@ -17,7 +17,7 @@ export const POST = async (
 
     const newUser = new User(validatedData);
 
-    console.log((await newUser.save()).toObject());
+    await newUser.save();
 
     return NextResponse.json(
       {

@@ -25,6 +25,10 @@ const userSchema = new Schema<TUserDocument>(
       type: String,
       trim: true,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     lastLoggedIn: {
       type: Date,
       default: Date.now,

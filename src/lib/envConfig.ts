@@ -4,4 +4,5 @@ export const envConfig = {
   SALT_ROUND: Number(process.env.SALT_ROUND) || 10,
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+  VERIFICATION_TOKEN_SECRET: process.env.VERIFICATION_TOKEN_SECRET,
 };
