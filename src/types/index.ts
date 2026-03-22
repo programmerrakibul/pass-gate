@@ -6,5 +6,5 @@ export interface MongooseCache {
 }
 
 export type TApiResponse<T = unknown> =
-  | { success: true; message: string; data?: T | T[] }
+  | { success: true; message: string; data?: T | T[]; ACCESS_TOKEN?: string }
   | { success: false; message: string };

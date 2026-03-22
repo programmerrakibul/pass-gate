@@ -38,7 +38,7 @@ export const POST = async (
     };
 
     let status = 500;
-    let message = "An unexpected error occurred";
+    let message = (err as Error).message || "An unexpected error occurred";
 
     if (isZodError(err)) {
       const issues = Object.values(err.issues);
