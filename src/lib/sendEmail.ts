@@ -123,7 +123,7 @@ export const sendVerificationEmail = async (user: TJwtPayload) => {
     <!-- Footer -->
     <div style="background-color: #f9fafb; padding: 24px; text-align: center; border-top: 1px solid #e5e7eb;">
       <p style="color: #6b7280; font-size: 12px; margin: 0 0 8px 0;">
-        &copy; ${new Date().getFullYear()} Your Company Name. All rights reserved.
+        &copy; ${new Date().getFullYear()} PassGate. All rights reserved.
       </p>
       <p style="color: #9ca3af; font-size: 11px; margin: 0;">
         This is an automated message, please do not reply to this email.
