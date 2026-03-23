@@ -1,10 +1,7 @@
 import { Document } from "mongoose";
 import type { TCreateUser } from "@/validators/user.validator";
 
-export type TUser = TCreateUser &
-  TCreateUser & {
-    lastLoggedIn: Date;
-    isVerified: boolean;
-  };
-
-export interface TUserDocument extends TUser, Document {}
+export interface TUserDocument extends TCreateUser, Document {
+  lastLoggedIn: Date;
+  isVerified: boolean;
+}

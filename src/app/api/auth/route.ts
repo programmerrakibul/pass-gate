@@ -2,7 +2,7 @@ import User from "@/models/user.model";
 import dbConnect from "@/lib/dbConnect";
 import { sendVerificationEmail } from "@/lib/sendEmail";
 import { type NextRequest, NextResponse } from "next/server";
-import { createUserSchema } from "@/validators/user.validator";
+import { createUserSchema,  } from "@/validators/user.validator";
 import { isZodError } from "@/lib/handleError.zod";
 import type { TApiResponse } from "@/types";
 
@@ -11,11 +11,11 @@ export const POST = async (
 ): Promise<NextResponse<TApiResponse<InstanceType<typeof User>>>> => {
   try {
     const body = await req.json();
-    const validatedData = createUserSchema.parse(body);
+    const validatedData = createUserSchema.parse(body) 
 
     await dbConnect();
 
-    const newUser = new User(validatedData);
+    const newUser = new User(validatedData)
 
     await newUser.save();
     await sendVerificationEmail(newUser);
