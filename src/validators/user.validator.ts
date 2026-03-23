@@ -34,4 +34,23 @@ export const createUserSchema = z.object(
   "User data is required in the request body!",
 );
 
+export const loginSchema = z.object({
+  email: z
+    .string({
+      error: (iss) =>
+        iss.input === undefined
+          ? "Email field is required!"
+          : "Invalid Email format!",
+    })
+    .email("Please provide a valid email address!")
+    .transform((val) => val.toLowerCase()),
+  password: z.string({
+    error: (iss) =>
+      iss.input === undefined
+        ? "Password field is required!"
+        : "Invalid Password type!",
+  }),
+});
+
 export type TCreateUser = z.infer<typeof createUserSchema>;
+export type TLoginUser = z.infer<typeof loginSchema>;

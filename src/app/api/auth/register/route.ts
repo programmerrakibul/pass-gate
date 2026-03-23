@@ -3,7 +3,7 @@ import dbConnect from "@/lib/dbConnect";
 import { sendVerificationEmail } from "@/lib/sendEmail";
 import { type NextRequest, NextResponse } from "next/server";
 import { createUserSchema } from "@/validators/user.validator";
-import { isZodError } from "@/lib/handleError.zod";
+import { handleZodError, isZodError } from "@/lib/handleError.zod";
 import type { TApiResponse } from "@/types";
 import type { TUserDocument } from "@/types/user.types";
 
@@ -73,10 +73,8 @@ export const POST = async (
     let message = (err as Error).message || "An unexpected error occurred";
 
     if (isZodError(err)) {
-      const issues = Object.values(err.issues);
-
       status = 422;
-      message = issues.map((val) => val.message).join(", ");
+      message = handleZodError(err);
     }
 
     if (mongoError.code === 11000 && mongoError.keyValue) {
