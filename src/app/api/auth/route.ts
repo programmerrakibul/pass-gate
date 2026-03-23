@@ -1,8 +1,9 @@
 import User from "@/models/user.model";
 import dbConnect from "@/lib/dbConnect";
+import { isZodError } from "@/lib/utils";
+import { sendVerificationEmail } from "@/lib/sendEmail";
 import { NextRequest, NextResponse } from "next/server";
 import { createUserSchema } from "@/validators/user.validator";
-import { isZodError } from "@/lib/utils";
 
 import type { TApiResponse } from "@/types";
 
@@ -18,12 +19,13 @@ export const POST = async (
     const newUser = new User(validatedData);
 
     await newUser.save();
+    await sendVerificationEmail(newUser);
 
     return NextResponse.json(
       {
         success: true,
-        message: "User registered successfully!",
-        data: newUser,
+        message:
+          "Registration successful! Please check your email to verify your account.",
       },
       {
         status: 201,
