@@ -1,10 +1,9 @@
 import User from "@/models/user.model";
 import dbConnect from "@/lib/dbConnect";
-import { isZodError } from "@/lib/utils";
 import { sendVerificationEmail } from "@/lib/sendEmail";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { createUserSchema } from "@/validators/user.validator";
-
+import { isZodError } from "@/lib/handleError.zod";
 import type { TApiResponse } from "@/types";
 
 export const POST = async (

@@ -2,7 +2,7 @@ import { envConfig } from "@/lib/envConfig";
 import bcrypt from "bcryptjs";
 import { model, models, Schema } from "mongoose";
 
-import type { TUserDocument } from "@/types/user.type";
+import type { TUserDocument } from "@/types/user.types";
 
 const userSchema = new Schema<TUserDocument>(
   {

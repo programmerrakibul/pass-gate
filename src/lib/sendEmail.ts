@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { envConfig } from "./envConfig";
-import { TUserDocument } from "@/types/user.type";
-import { generateEmailVerificationToken } from "./utils";
+import { TJwtPayload } from "@/types/jwt.types";
+import { generateEmailVerificationToken } from "./jwt/generateToken.jwt";
 
 const GOOGLE_APP_PASSWORD = envConfig.GOOGLE_APP_PASSWORD;
 const EMAIL_FROM = envConfig.EMAIL_FROM;
@@ -35,15 +35,11 @@ transporter.verify((error, success) => {
   }
 });
 
-export const sendVerificationEmail = async (
-  user: Pick<TUserDocument, "email" | "_id">,
-) => {
+export const sendVerificationEmail = async (user: TJwtPayload) => {
   try {
-    const token = await generateEmailVerificationToken({
-      email: user.email,
-      _id: user._id,
-    });
+    const { email, _id } = user;
 
+    const token = await generateEmailVerificationToken({ email, _id });
     const url = `${envConfig.CLIENT_URL}/api/auth/verify-email?token=${token}`;
 
     const message = await transporter.sendMail({
