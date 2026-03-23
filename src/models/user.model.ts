@@ -15,11 +15,14 @@ const userSchema = new Schema<TUserDocument>(
       trim: true,
       required: true,
       unique: true,
+      toLowerCase: true,
+      index: true,
     },
     password: {
       type: String,
       trim: true,
       required: true,
+      select: false,
     },
     photoURL: {
       type: String,
@@ -39,12 +42,23 @@ const userSchema = new Schema<TUserDocument>(
   },
 );
 
+// Hash password before saving
 userSchema.pre<TUserDocument>("save", async function () {
   if (this.isModified("password")) {
-    const hashed = await bcrypt.hash(this.password, envConfig.SALT_ROUND);
+    // Generate salt and hash password
+    const salt = await bcrypt.genSalt(envConfig.SALT_ROUND);
+    const hashed = await bcrypt.hash(this.password, salt);
+
     this.password = hashed;
   }
 });
+
+// Method to compare passwords
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string,
+): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
 const User = models.User || model("User", userSchema);
 

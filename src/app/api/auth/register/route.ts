@@ -2,23 +2,54 @@ import User from "@/models/user.model";
 import dbConnect from "@/lib/dbConnect";
 import { sendVerificationEmail } from "@/lib/sendEmail";
 import { type NextRequest, NextResponse } from "next/server";
-import { createUserSchema,  } from "@/validators/user.validator";
+import { createUserSchema } from "@/validators/user.validator";
 import { isZodError } from "@/lib/handleError.zod";
 import type { TApiResponse } from "@/types";
+import type { TUserDocument } from "@/types/user.types";
 
 export const POST = async (
   req: NextRequest,
-): Promise<NextResponse<TApiResponse<InstanceType<typeof User>>>> => {
+): Promise<NextResponse<TApiResponse<TUserDocument>>> => {
   try {
     const body = await req.json();
-    const validatedData = createUserSchema.parse(body) 
+    const validatedData = createUserSchema.parse(body);
 
+    // Connect to Database
     await dbConnect();
 
-    const newUser = new User(validatedData)
+    // Check if user already exists
+    const existingUser = await User.findOne({
+      email: validatedData.email,
+    });
+
+    if (existingUser) {
+      if (!existingUser.isVerified) {
+        // Resend verification email for unverified users
+        await sendVerificationEmail(existingUser);
+
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Account exists but not verified. A new verification email has been sent.",
+          },
+          { status: 400 },
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          message: "User with this email already exists. Please login instead.",
+        },
+        { status: 409 },
+      );
+    }
+
+    const newUser = new User(validatedData);
 
     await newUser.save();
-    await sendVerificationEmail(newUser);
+    sendVerificationEmail(newUser);
 
     return NextResponse.json(
       {

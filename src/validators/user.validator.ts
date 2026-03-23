@@ -7,12 +7,15 @@ export const createUserSchema = z.object(
       .min(3, "Name must be at least 3 characters long!")
       .max(20, "Name must be at most 20 characters long!")
       .optional(),
-    email: z.email({
-      error: (iss) =>
-        iss.input === undefined
-          ? "Email field is required!"
-          : "Invalid Email format!",
-    }),
+    email: z
+      .string({
+        error: (iss) =>
+          iss.input === undefined
+            ? "Email field is required!"
+            : "Invalid Email format!",
+      })
+      .email("Please provide a valid email address!")
+      .lowercase(),
     password: z
       .string({
         error: (iss) =>
